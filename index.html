@@ -7,15 +7,16 @@
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
   </style>
+
+  <!-- ✅ Classic script-based CDN (not modules) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.min.js"></script>
 </head>
 <body>
-  <script type="module">
-    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js';
-    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/controls/OrbitControls.js';
-
+  <script>
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({antialias:true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
@@ -25,11 +26,11 @@
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
 
-    // Camera and controls
+    // Camera & Controls
     camera.position.z = 5;
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-    // Animation loop
+    // Animate
     function animate() {
       requestAnimationFrame(animate);
       cube.rotation.x += 0.01;
@@ -39,6 +40,7 @@
     }
     animate();
 
+    // Resize
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
