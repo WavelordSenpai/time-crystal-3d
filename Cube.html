@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>p5.js Cube</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+  </head>
+  <body>
+    <script>
+      function setup() {
+        createCanvas(windowWidth, windowHeight, WEBGL);
+        background(200);
+      }
+
+      function draw() {
+        background(240);
+        orbitControl();       // drag to rotate
+        rotateY(frameCount * 0.01);
+        box(100);
+      }
+    </script>
+  </body>
+</html>
