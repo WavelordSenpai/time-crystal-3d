@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Time Crystal 3D</title>
   <style>
     body { margin: 0; overflow: hidden; }
@@ -11,46 +10,39 @@
 </head>
 <body>
   <script type="module">
-    import * as THREE from 'https://unpkg.com/three@0.150.1/build/three.module.js';
-    import { OrbitControls } from 'https://unpkg.com/three@0.150.1/examples/jsm/controls/OrbitControls.js';
+    // Import THREE and OrbitControls from unpkg CDN with full URLs
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js';
+    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/controls/OrbitControls.js';
 
-    // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
-
-    const renderer = new THREE.WebGLRenderer({antialias: true});
+    const renderer = new THREE.WebGLRenderer({antialias:true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // OrbitControls
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-
-    // Geometry - a simple cube
+    // Add a cube
     const geometry = new THREE.BoxGeometry();
     const material = new THREE.MeshNormalMaterial();
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
 
-    // Animate loop
+    // Camera and controls
+    camera.position.z = 5;
+    const controls = new OrbitControls(camera, renderer.domElement);
+
+    // Animation loop
     function animate() {
       requestAnimationFrame(animate);
-
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
-
       controls.update();
-
       renderer.render(scene, camera);
     }
-
     animate();
 
-    // Handle resizing
+    // Handle window resize
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth/window.innerHeight;
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
