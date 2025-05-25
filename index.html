@@ -14,15 +14,12 @@
       display: block;
     }
   </style>
-
-  <!-- ✅ Three.js from CDN -->
-  <script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
-
-  <!-- ✅ OrbitControls from CDN -->
-  <script src="https://unpkg.com/three@0.150.1/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
-  <script>
+  <script type="module">
+    import * as THREE from 'https://unpkg.com/three@0.150.1/build/three.module.js';
+    import { OrbitControls } from 'https://unpkg.com/three@0.150.1/examples/jsm/controls/OrbitControls.js';
+
     // SCENE
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000);
@@ -42,7 +39,7 @@
     document.body.appendChild(renderer.domElement);
 
     // CONTROLS
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    const controls = new OrbitControls(camera, renderer.domElement);
 
     // GEOMETRY
     const geometry = new THREE.BoxGeometry();
@@ -54,7 +51,7 @@
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
 
-    // LIGHT
+    // LIGHTS
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
@@ -62,7 +59,7 @@
     pointLight.position.set(10, 10, 10);
     scene.add(pointLight);
 
-    // ANIMATE
+    // ANIMATION LOOP
     function animate() {
       requestAnimationFrame(animate);
       cube.rotation.x += 0.01;
@@ -73,7 +70,7 @@
 
     animate();
 
-    // RESIZE
+    // HANDLE RESIZE
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
