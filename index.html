@@ -1,37 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Time Crystal 3D</title>
   <style>
-    body { margin: 0; overflow: hidden; }
+    body { margin: 0; overflow: hidden; background: #000; }
     canvas { display: block; }
   </style>
 
-  <!-- ✅ Classic script-based CDN (not modules) -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.min.js"></script>
+  <!-- Load Three.js core -->
+  <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
+  <!-- Load OrbitControls THE NON-MODULE VERSION -->
+  <script src="https://unpkg.com/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
   <script>
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    // Scene + Camera + Renderer
+    const scene    = new THREE.Scene();
+    const camera   = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
     const renderer = new THREE.WebGLRenderer({antialias:true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // Cube
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshNormalMaterial();
-    const cube = new THREE.Mesh(geometry, material);
+    // Geometry (cube) + Material + Mesh
+    const geo  = new THREE.BoxGeometry();
+    const mat  = new THREE.MeshNormalMaterial();
+    const cube = new THREE.Mesh(geo, mat);
     scene.add(cube);
 
-    // Camera & Controls
-    camera.position.z = 5;
+    // OrbitControls is now a global attached to THREE
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-    // Animate
-    function animate() {
+    // Animate loop
+    function animate(){
       requestAnimationFrame(animate);
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
@@ -40,9 +43,9 @@
     }
     animate();
 
-    // Resize
+    // Handle resizing
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.aspect = window.innerWidth/window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
